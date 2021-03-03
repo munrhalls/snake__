@@ -2,7 +2,9 @@ const grid = document.getElementsByTagName('main')[0];
 console.log(grid);
 
 
-dominoSquare.count = 0;
+
+function dominoGrid() {
+  dominoSquare.count = 0;
 function dominoSquare() {
   let row = document.createElement('div');
   row.style.display = 'flex'
@@ -22,6 +24,7 @@ function dominoSquare() {
     dominoSquare();
   }
 }
-
-
 dominoSquare();
+}
+
+dominoGrid();
