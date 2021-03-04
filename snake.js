@@ -3,8 +3,9 @@
 // loop
 // create square until < rowLength
 // append row
-
 // loop that * num of row length
+
+//mark each square rownum, num
 const main = document.getElementsByTagName('main')[0];
 
 function grid() {
@@ -19,6 +20,7 @@ function loop() {
     square.style.width = '0.75rem';
     square.style.border = '1px solid black';
     square.style.border = '1px solid black';
+    square.id = count + ',' + i;
     row.appendChild(square);
   }
   main.appendChild(row);
