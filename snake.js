@@ -7,25 +7,24 @@
 // loop that * num of row length
 const main = document.getElementsByTagName('main')[0];
 
+let size = 40;
 let count = 0;
 function loop() {
   let row = document.createElement('div');
   row.style.display = 'flex';
-  let rowLength = 22;
-  for (let i = 0; i < rowLength; i++) {
+  for (let i = 0; i < size; i++) {
     let square = document.createElement('div');
-    square.style.height = '12px';
-    square.style.width = '12px';
+    square.style.height = '0.75rem';
+    square.style.width = '0.75rem';
     square.style.border = '1px solid black';
     square.style.border = '1px solid black';
     row.appendChild(square);
   }
   main.appendChild(row);
-  if (count < 22) {
+  if (count < size) {
     count++;
     loop();
   }
 }
-
 loop();
 
