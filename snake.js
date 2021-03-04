@@ -17,7 +17,9 @@ import grid from './grid.js';
 // 1) style it
 
 
-function snakeDirections() {
+
+  let activeDirection = 'TOP';
+
   document.onkeydown = checkKey;
   function checkKey(e) {
     e = e;
@@ -35,16 +37,33 @@ function snakeDirections() {
     }
     console.log(activeDirection);
   }
-}
+
 function snake() {
   let area = ['14,14'];
   let snakeColor = 'green';
   let activeDirection = 'TOP';
-  snakeDirections();
+
+  document.onkeydown = checkKey;
+  function checkKey(e) {
+    e = e;
+    if (e.keyCode == '38') {
+      activeDirection = 'TOP';
+    }
+    else if (e.keyCode == '40') {
+      activeDirection = 'DOWN';
+    }
+    else if (e.keyCode == '37') {
+      activeDirection = 'RIGHT';
+    }
+    else if (e.keyCode == '39') {
+      activeDirection = 'LEFT';
+    }
+    console.log(activeDirection);
+  }
   setInterval(function () {
     for (let i = 0; i < area.length; i++) {
       let id = area[i];
-      let squareAtId = document.getElementById('14,14');
+      let squareAtId = document.getElementById(id);
       squareAtId.style.background = snakeColor;
     }
     function snakeMove() {
@@ -65,13 +84,15 @@ function snake() {
       // left -> [num, num-]
       let topCoord = area[0].split(',');
       if (activeDirection === 'TOP') {
-        area.unshift(topCoord[0] - 1);
+        let newTopCoord = (topCoord[0] - 1) + ',' + topCoord[1];
+        console.log(newTopCoord)
+        area.unshift(newTopCoord);
       }
       // [num, num] -> [num-, num]
       // [num, num] -> num1 num2 -> num1 -1 -> return
-      
-
     }
+    snakeMove();
+
   }, 1000);
 }
 
