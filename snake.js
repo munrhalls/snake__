@@ -43,31 +43,30 @@ function snakeDirection() {
     }
   }
 }
-
-function snakeMove() {
-
-}
-
+// setInterval; check
+// every sec - snake runs; check
+// snake triggers - snakeDirection; snakeBody; snakeMove; check
+// 
 function snake() {
+  setInterval(function(){
+    function snakeMove() {
+      // snake movement
+      // create function 
+      // this takes [num, num]
+      // and
+      // top -> [num-, num]
+      // right -> [num, num+]
+      // bot -> [num+, num]
+      // left -> [num, num-]
+
+      // [num, num] -> [num-, num]
+      // [num, num] -> num1 num2 -> num1 -1 -> return
+    }
+  }, 1000);
   snakeDirection();
   snakeBody();
+
 }
-// setInterval 
-// every sec - snake runs;
-// snake triggers - snakeDirection; snakeBody; snakeMove;
-
-
-// snake movement
-// create function 
-// this takes [num, num]
-// and
-// top -> [num-, num]
-// right -> [num, num+]
-// bot -> [num+, num]
-// left -> [num, num-]
-
-// [num, num] -> [num-, num]
-// [num, num] -> num1 num2 -> num1 -1 -> return
 
 grid();
 snake();
