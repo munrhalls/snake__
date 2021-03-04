@@ -44,6 +44,19 @@ function snakeDirection() {
   }
 }
 
+function snakeMove() {
+
+}
+
+function snake() {
+  snakeDirection();
+  snakeBody();
+}
+// setInterval 
+// every sec - snake runs;
+// snake triggers - snakeDirection; snakeBody; snakeMove;
+
+
 // snake movement
 // create function 
 // this takes [num, num]
@@ -57,4 +70,4 @@ function snakeDirection() {
 // [num, num] -> num1 num2 -> num1 -1 -> return
 
 grid();
-snakeBody();
+snake();
