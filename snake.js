@@ -25,5 +25,14 @@ function snakeBody() {
   }
 }
 
+function snakeDirection() {
+  // this takes [num, num]
+  // and
+  // top -> [num-, num]
+  // right -> [num, num+]
+  // bot -> [num+, num]
+  // left -> [num, num-]
+  const = []
+}
 grid();
 snakeBody();
