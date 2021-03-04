@@ -1,3 +1,4 @@
+import grid from './grid.js';
 // create row
 // num of row length (squares per row)
 // loop
@@ -6,30 +7,11 @@
 // loop that * num of row length
 
 //mark each square rownum, num
-const main = document.getElementsByTagName('main')[0];
+// snake = 
+////////// body - [array of ids] - 1) corresponding elems are accessed, 2) styled, 3) elements going out are restyled to normal
+////////// direction - one state of 4: [r+ (top), r-(bot), col-(left), col+(right)]
+////////// movement - (move is func run at interval every sec) 1) deletes last el [array of ids], 2) creates new el, 3) checks first el [array of ids] and modifies it by [active direction], 4) adds that el to the snake body [array of ids]
+// loop
 
-function grid() {
-let size = 40;
-let count = 0;
-function loop() {
-  let row = document.createElement('div');
-  row.style.display = 'flex';
-  for (let i = 0; i < size; i++) {
-    let square = document.createElement('div');
-    square.style.height = '0.75rem';
-    square.style.width = '0.75rem';
-    square.style.border = '1px solid black';
-    square.style.border = '1px solid black';
-    square.id = count + ',' + i;
-    row.appendChild(square);
-  }
-  main.appendChild(row);
-  if (count < size) {
-    count++;
-    loop();
-  }
-}
-loop();
-}
 grid();
 
