@@ -7,6 +7,7 @@
 // loop that * num of row length
 const main = document.getElementsByTagName('main')[0];
 
+function grid() {
 let size = 40;
 let count = 0;
 function loop() {
@@ -27,4 +28,6 @@ function loop() {
   }
 }
 loop();
+}
+grid();
 
