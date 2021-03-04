@@ -8,9 +8,9 @@ import grid from './grid.js';
 
 //mark each square rownum, num
 // snake = 
-////////// body - [array of ids] - 1) corresponding elems are accessed, 2) styled, 3) elements going out are restyled to normal
-////////// direction - one state of 4: [r+ (top), r-(bot), col-(left), col+(right)]
-////////// movement - (move is func run at interval every sec) 1) deletes last el [array of ids], 2) creates new el, 3) checks first el [array of ids] and modifies it by [active direction], 4) adds that el to the snake body [array of ids]
+////////// body - [array of ids] - 1) corresponding elems are accessed, 2) styled
+////////// direction - one state of 4: [r+ (top), r-(bot), col-(left), col+(right)] - 1) create active direction variable, 2) assign r+(top) to it, 3) create event listener, 4) associate each arrow key to corresponding direction, 5) upon hitting an arrow key, active direction variable changes, 6) 
+////////// movement - (move is func run at interval every sec) 1) deletes last el [array of ids]; 1) styles it back to normal, 2) creates new el, 3) checks first el [array of ids] and modifies it by [active direction], 4) adds that el to the snake body [array of ids]
 
 // 1) loop 
 // 1) access element
@@ -21,7 +21,6 @@ function snakeBody() {
   let snakeColor = 'green';
   for (let i = 0; i < snakeBody.length; i++) {
     let squareAtId = document.getElementById(snakeBody[i]);
-    console.log(squareAtId)
     squareAtId.style.background = snakeColor;
   }
 }
