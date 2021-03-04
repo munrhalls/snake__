@@ -16,10 +16,10 @@ import grid from './grid.js';
 // 1) access element
 // 1) style it
 
-function snakeBody() {
-  let snakeBody = ['11,12'];
+function snakeBody(area) {
+  //the new location 
   let snakeColor = 'green';
-  for (let i = 0; i < snakeBody.length; i++) {
+  for (let i = 0; i < area.length; i++) {
     let squareAtId = document.getElementById(snakeBody[i]);
     squareAtId.style.background = snakeColor;
   }
@@ -43,13 +43,19 @@ function snakeDirection() {
     }
   }
 }
-// setInterval; check
-// every sec - snake runs; check
-// snake triggers - snakeDirection; snakeBody; snakeMove; check
-// 
 function snake() {
-  setInterval(function(){
+  snakeDirection();
+  setInterval(function () {
+    let area = ['14, 14'];
+    snakeBody();
     function snakeMove() {
+      // where does body take its coordinates from?
+      // maybe, snake body moves from itself
+      // snake move changes area from previous to the new one
+      // snakeMove -> area to new area -> new area to snakeBody
+      // area = snakeMove OR initial value (center square)
+      // area -> snake body -> snake move -> changes area -> changes snake body -> snake move -> loop
+
       // snake movement
       // create function 
       // this takes [num, num]
@@ -61,11 +67,10 @@ function snake() {
 
       // [num, num] -> [num-, num]
       // [num, num] -> num1 num2 -> num1 -1 -> return
+
+
     }
   }, 1000);
-  snakeDirection();
-  snakeBody();
-
 }
 
 grid();
