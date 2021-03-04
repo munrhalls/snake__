@@ -50,7 +50,7 @@ function snake() {
       activeDirection = 'TOP';
     }
     else if (e.keyCode == '40') {
-      activeDirection = 'DOWN';
+      activeDirection = 'BOTTOM';
     }
     else if (e.keyCode == '37') {
       activeDirection = 'RIGHT';
@@ -85,6 +85,21 @@ function snake() {
       let topCoord = area[0].split(',');
       if (activeDirection === 'TOP') {
         let newTopCoord = (topCoord[0] - 1) + ',' + topCoord[1];
+        console.log(newTopCoord)
+        area.unshift(newTopCoord);
+      }
+      if (activeDirection === 'RIGHT') {
+        let newTopCoord = (topCoord[0]) + ',' + topCoord[1] + 1;
+        console.log(newTopCoord)
+        area.unshift(newTopCoord);
+      }
+      if (activeDirection === 'BOTTOM') {
+        let newTopCoord = (topCoord[0] + 1) + ',' + topCoord[1];
+        console.log(newTopCoord)
+        area.unshift(newTopCoord);
+      }
+      if (activeDirection === 'LEFT') {
+        let newTopCoord = (topCoord[0]) + ',' + topCoord[1] - 1;
         console.log(newTopCoord)
         area.unshift(newTopCoord);
       }
