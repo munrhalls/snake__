@@ -16,19 +16,11 @@ import grid from './grid.js';
 // 1) access element
 // 1) style it
 
-function snakeBody(area) {
-  //the new location 
-  let snakeColor = 'green';
-  for (let i = 0; i < area.length; i++) {
-    let squareAtId = document.getElementById(snakeBody[i]);
-    squareAtId.style.background = snakeColor;
-  }
-}
-function snakeDirection() {
-  let activeDirection = 'TOP';
+
+function snakeDirections() {
   document.onkeydown = checkKey;
   function checkKey(e) {
-    e = e || window.event;
+    e = e;
     if (e.keyCode == '38') {
       activeDirection = 'TOP';
     }
@@ -36,18 +28,25 @@ function snakeDirection() {
       activeDirection = 'DOWN';
     }
     else if (e.keyCode == '37') {
-      activeDirection = 'LEFT';
-    }
-    else if (e.keyCode == '39') {
       activeDirection = 'RIGHT';
     }
+    else if (e.keyCode == '39') {
+      activeDirection = 'LEFT';
+    }
+    console.log(activeDirection);
   }
 }
 function snake() {
-  snakeDirection();
+  let area = ['14,14'];
+  let snakeColor = 'green';
+  let activeDirection = 'TOP';
+  snakeDirections();
   setInterval(function () {
-    let area = ['14, 14'];
-    snakeBody();
+    for (let i = 0; i < area.length; i++) {
+      let id = area[i];
+      let squareAtId = document.getElementById('14,14');
+      squareAtId.style.background = snakeColor;
+    }
     function snakeMove() {
       // where does body take its coordinates from?
       // maybe, snake body moves from itself
@@ -64,10 +63,13 @@ function snake() {
       // right -> [num, num+]
       // bot -> [num+, num]
       // left -> [num, num-]
-
+      let topCoord = area[0].split(',');
+      if (activeDirection === 'TOP') {
+        area.unshift(topCoord[0] - 1);
+      }
       // [num, num] -> [num-, num]
       // [num, num] -> num1 num2 -> num1 -1 -> return
-
+      
 
     }
   }, 1000);
