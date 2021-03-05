@@ -15,7 +15,7 @@ import grid from './grid.js';
 // 1) loop 
 // 1) access element
 // 1) style it
-
+  const gridBg = 'white';
   let activeDirection = 'TOP';
 
   document.onkeydown = checkKey;
@@ -40,7 +40,6 @@ function snake() {
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
   let activeDirection = 'TOP';
-
   document.onkeydown = checkKey;
   setInterval(function () {
     for (let i = 0; i < snakeBody.length; i++) {
@@ -115,6 +114,8 @@ function snake() {
       var horiz = snakeBody[0].split(',')[1];
       // 3., 4.
       // sequence - squareid needs to be there in the for loop
+      // should the variable modify with each interval? why does modify only once and stays after?
+      // it should; then it should unshift; then that new var becomes basis for the next new one after that;
       if (activeDirection === 'TOP') {
         vert--;
       } else if (activeDirection === 'BOTTOM') {
@@ -125,6 +126,12 @@ function snake() {
         horiz--;
       }
       console.log(vert)
+      //5., 6., 7.
+      // before delete - re-paint it to default
+      let newCoord = vert + ',' + horiz;
+      snakeBody.unshift(newCoord);
+      snakeBody[snakeBody.length - 1].style.background = gridBg;
+      snakeBody.pop();
 
     }
     snakeMove();
@@ -132,5 +139,5 @@ function snake() {
   }, 1000);
 }
 
-grid();
+grid(gridBg);
 snake();
