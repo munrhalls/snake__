@@ -1,81 +1,44 @@
 import grid from './grid.js';
 const gridBg = 'white';
-
-// function food(interval) {
-//   setInterval(function () {
-//     function getRandomIntInclusive(min, max) {
-//       min = Math.ceil(min);
-//       max = Math.floor(max);
-//       return Math.floor(Math.random() * (max - min + 1)) + min;
-//     }
-//     function generateFood() {
-//       let random1 = getRandomIntInclusive(0, grid.size);
-//       let random2 = getRandomIntInclusive(0, grid.size);
-//       let id = random1 + ',' + random2;
-//       let square = document.getElementById(id);
-//       square.className = 'food';
-//       square.style.background = 'yellow';
-//     }
-//     generateFood();
-//   }, interval);
-// }
-
-// function pause() {
-//   snake.interval();
-// }
-
-// how can pausing the game work?
-// I need a way to run snake() and food() in functions that can be stopped
-// Can it not work with set interval?
-// Check stackoverflow. 
-// It can work
-// Make sense of it
-// 1. If I take out the interval out of the func, I can resume it as window.setInterval...
-// Does not quite work.
-// Re-check. 
-// SetTimeout in a recursive func
-// Pausing it = altering the conditional to false 
-
-// func
-// accumulator
-// tfunc = setTimeout
-// accumulator +1 
-// snake()
-// if true - tfunc() 
-// when it's false, tfunc doesn't run
-// it's true at the start
-// pause = altered to false, tfunc stops
-// resume = run func() + altered to true, so tfunc continues in recursive loop
+// game
+// grid
+// food
+// snake
 function game() {
-  let time = 0;
+  game.time = 0;
   game.running = true;
+  game.pause = function() {
+    game.running = false;
+  }
+  game.resume = function() {
+    game.running = true;
+  }
   function run() {
-    console.log('Timeout 1 second.')
+    console.log('running')
   }
   function timer() {
     setTimeout(function () {
-      time++;
+      game.time++;
       run();
 
       if (game.running) {
         timer();
       }
     }, 1000);
-    
+
   }
   timer();
 }
 game();
+game.pause();
+game.resume();
+
 
 // function snake() {
 //   let snakeBody = ['19,19'];
 //   let snakeColor = 'green';
 //   var activeDirection = 'TOP';
 //   document.onkeydown = checkKey;
-
-//   snake.interval = window.setInterval(function () {
-//     console.log('it works')
-//   }, 100);
 
 //   function checkKey(e) {
 //     e = e;
@@ -97,7 +60,7 @@ game();
 //     console.log(activeDirection);
 //   }
 
-//   snake.move = window.setInterval(function () {
+//   function snakeMove() {
 //     var vert = snakeBody[0].split(',')[0];
 //     var horiz = snakeBody[0].split(',')[1];
 //     if (activeDirection === 'TOP') {
@@ -125,7 +88,8 @@ game();
 //       let squareAtId = document.getElementById(id);
 //       squareAtId.style.background = snakeColor;
 //     }
-//   }, 250);
+//   }
+//   snakeMove();
 // }
 
 // grid(gridBg);
