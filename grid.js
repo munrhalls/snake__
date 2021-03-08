@@ -1,11 +1,11 @@
 function grid(gridBg) {
   const main = document.getElementsByTagName('main')[0];
-  let size = 40;
+  grid.size = 40;
   let count = 0;
   function loop() {
     let row = document.createElement('div');
     row.style.display = 'flex';
-    for (let i = 0; i < size; i++) {
+    for (let i = 0; i < grid.size; i++) {
       let square = document.createElement('div');
       square.style.background = gridBg;
       square.style.height = '0.75rem';
@@ -16,7 +16,7 @@ function grid(gridBg) {
       row.appendChild(square);
     }
     main.appendChild(row);
-    if (count < size) {
+    if (count < grid.size) {
       count++;
       loop();
     }
