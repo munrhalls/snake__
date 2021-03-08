@@ -67,18 +67,14 @@ function game() {
     let newCoord = getNewSnakeCoord(snakeBody);
     snakeBody.unshift(newCoord);
     let newSquare = document.getElementById(newCoord);
-
+    
     if (newSquare.className !== 'food') {
       let lastCoord = snakeBody[snakeBody.length - 1];
       let lastSnakeEl = document.getElementById(lastCoord);
       lastSnakeEl.style.background = gridBg;
       snakeBody.pop();
     }
-    for (let i = 0; i < snakeBody.length; i++) {
-      let id = snakeBody[i];
-      let squareAtId = document.getElementById(id);
-      squareAtId.style.background = snakeColor;
-    }
+    paintSnake(snakeBody);
   }
   function getNewSnakeCoord(snakeBody){
     var vert = snakeBody[0].split(',')[0];
@@ -92,9 +88,15 @@ function game() {
     } else if (activeDirection === 'LEFT') {
       horiz--;
     }
-
     let newCoord = vert + ',' + horiz;
     return newCoord;
+  }
+  function paintSnake(snakeBody) {
+    for (let i = 0; i < snakeBody.length; i++) {
+      let id = snakeBody[i];
+      let squareAtId = document.getElementById(id);
+      squareAtId.style.background = snakeColor;
+    }
   }
 }
 game();
