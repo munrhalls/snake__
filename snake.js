@@ -16,8 +16,12 @@ import grid from './grid.js';
 // 1) access element
 // 1) style it
   const gridBg = 'white';
-  let activeDirection = 'TOP';
+  
 
+function snake() {
+  let snakeBody = ['19,19'];
+  let snakeColor = 'green';
+  var activeDirection = 'TOP';
   document.onkeydown = checkKey;
   function checkKey(e) {
     e = e;
@@ -25,28 +29,18 @@ import grid from './grid.js';
       activeDirection = 'TOP';
     }
     else if (e.keyCode == '40') {
-      activeDirection = 'DOWN';
+      activeDirection = 'BOTTOM';
     }
     else if (e.keyCode == '37') {
-      activeDirection = 'RIGHT';
+      activeDirection = 'LEFT';
     }
     else if (e.keyCode == '39') {
-      activeDirection = 'LEFT';
+      activeDirection = 'RIGHT';
     }
     console.log(activeDirection);
   }
-
-function snake() {
-  let snakeBody = ['19,19'];
-  let snakeColor = 'green';
-  let activeDirection = 'TOP';
   document.onkeydown = checkKey;
   setInterval(function () {
-    for (let i = 0; i < snakeBody.length; i++) {
-      let id = snakeBody[i];
-      let squareAtId = document.getElementById(id);
-      squareAtId.style.background = snakeColor;
-    }
     function snakeMove() {
       // direction detect 
       // in conditional
@@ -130,12 +124,58 @@ function snake() {
       // before delete - re-paint it to default
       let newCoord = vert + ',' + horiz;
       snakeBody.unshift(newCoord);
-      snakeBody[snakeBody.length - 1].style.background = gridBg;
+      // why is lastCoord undefined?
+      let lastCoord = snakeBody[snakeBody.length - 1];
+      // snakebody initial length is 2
+      // so it is accessing [1] of snakebody
+      // why is it undefined?
+      // oh because that's a string..it's not an element
+      // 1. access the element by id
+      // 2. then style it
+      let lastSnakeEl = document.getElementById(lastCoord);
+      lastSnakeEl.style.background = gridBg;
       snakeBody.pop();
-
+      // how can the snake movement work?
+      // ok, last out, new first in; paint new first in; re-paint to normal the last out;
+      // JUST NOTICED - RE-STYLING BACK TO NORMAL LINE IS AFTER THE UNSHIFT
+      // MOST CRITICALLY - noticed it after posing the question of how can that feature work and tried to restore making sense first; if I didn't do that in that order - it'd probably take longer to find it, way longer perhaps; 
+      // how can it work?
+      // new first el in, last el restyle to normal, last el out
+      // last el access must be last el, otherwise it's 1 for paint - re-paint
+      // why is it undefined?
+      // snakebody.length is too long by 1 for access
+      // how can the snake be visible?
+      // why is the length of array not changing
+      // just realized, obvious
+      // why is the snake painting not visible?
+      // notice - forloop
+      // notice - forloop inside another loop 
+      // notice - there is an order thing to check here, it seems
+      // why is the snake not visible?
+      // what is the sequence?
+      // paint snake
+      // move snake
+      // [num,num] -> style to green
+      // [num,num , num,num] -> style to green
+      // how can it work?
+      // why do I have 2 elements?
+      // check - I don't, there's 1
+      // what is the flow of snake element being painted
+      // it should first move, THEN paint - that was the pain will be visible for the remainder of the second
+      // how can arrow changing direction work?
+      // btns should be altering the next 'num,num' that's unshifted as the snakeBody
+      // that should be all
+      // how can the var assignment work
+      // if the scopes are aligned
+      // how can bottom direction work?
+      // 
     }
     snakeMove();
-
+    for (let i = 0; i < snakeBody.length; i++) {
+      let id = snakeBody[i];
+      let squareAtId = document.getElementById(id);
+      squareAtId.style.background = snakeColor;
+    }
   }, 1000);
 }
 
