@@ -2,18 +2,10 @@ import grid from './grid.js';
 const gridBg = 'white';
 
 // game - just runs/pauses/resumes other functions
-// snake 
-// on each game frame
-// gather current snake area
-// paint current snake area 
-// update snake area
-// establish direction
-// properly construct new id
-// unshift that new id to first element
-// delete last element
-// paint snake area
-
-
+// gameFrame - runs per set timer tick
+  // snake
+    // getNewCoord
+    // 
 function game() {
   game.time = 0;
   game.running = true;
@@ -64,19 +56,16 @@ function game() {
     console.log(activeDirection);
   }
   function snake() {
-    let newCoord = getNewSnakeCoord(snakeBody);
+    let newCoord = getNewCoord(snakeBody);
     snakeBody.unshift(newCoord);
     let newSquare = document.getElementById(newCoord);
     
     if (newSquare.className !== 'food') {
-      let lastCoord = snakeBody[snakeBody.length - 1];
-      let lastSnakeEl = document.getElementById(lastCoord);
-      lastSnakeEl.style.background = gridBg;
-      snakeBody.pop();
+      deleteLastCoord();
     }
     paintSnake(snakeBody);
   }
-  function getNewSnakeCoord(snakeBody){
+  function getNewCoord(snakeBody){
     var vert = snakeBody[0].split(',')[0];
     var horiz = snakeBody[0].split(',')[1];
     if (activeDirection === 'TOP') {
@@ -90,6 +79,12 @@ function game() {
     }
     let newCoord = vert + ',' + horiz;
     return newCoord;
+  }
+  function deleteLastCoord() {
+    let lastCoord = snakeBody[snakeBody.length - 1];
+      let lastSnakeEl = document.getElementById(lastCoord);
+      lastSnakeEl.style.background = gridBg;
+      snakeBody.pop();
   }
   function paintSnake(snakeBody) {
     for (let i = 0; i < snakeBody.length; i++) {
