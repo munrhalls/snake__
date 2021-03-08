@@ -8,6 +8,11 @@ const gridBg = 'white';
 // deleteLastCoord
 // grocer
 // plants food per set timer ticks amount
+// gameOver
+  // listens for game over conditions 
+    // snake hits itself
+    // snake goes out of the grid
+  // when the game is over, it pauses
 
 function game() {
   game.size = 40;
@@ -65,6 +70,10 @@ function game() {
   }
   function snake() {
     let newCoord = getNewCoord(snakeBody);
+    if (GAMEcheckOutOfBounds(newCoord)) {
+      game.pause();
+      return;
+    }
     let newSquare = document.getElementById(newCoord);
     snakeBody.unshift(newCoord);
 
@@ -113,6 +122,11 @@ function game() {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  function GAMEcheckOutOfBounds(newCoord) {
+    //snake goes out of the grid
+    let coords = newCoord.split(',');
+    return (coords[0] < 0 || coords[1] < 0)
   }
 }
 game();
