@@ -3,11 +3,16 @@ const gridBg = 'white';
 
 // game - just runs/pauses/resumes other functions
 // gameFrame - runs per set timer tick
-  // snake
-    // getNewCoord
-    // 
+// snake
+// getNewCoord
+// deleteLastCoord
+// grocer
+// plants food per set timer ticks amount
+
 function game() {
+  game.size = 40;
   game.time = 0;
+  game.timePerFrame = 250;
   game.running = true;
   game.pause = function () {
     game.running = false;
@@ -18,6 +23,9 @@ function game() {
   grid(gridBg);
   function run() {
     snake();
+    if (game.time % 2 === 0) {
+      grocer();
+    }
   }
   function gameFrame() {
     setTimeout(function () {
@@ -27,7 +35,7 @@ function game() {
         gameFrame();
         run();
       }
-    }, 1000);
+    }, game.timePerFrame);
 
   }
   gameFrame();
@@ -57,15 +65,22 @@ function game() {
   }
   function snake() {
     let newCoord = getNewCoord(snakeBody);
-    snakeBody.unshift(newCoord);
     let newSquare = document.getElementById(newCoord);
-    
+    snakeBody.unshift(newCoord);
+
     if (newSquare.className !== 'food') {
       deleteLastCoord();
     }
     paintSnake(snakeBody);
   }
-  function getNewCoord(snakeBody){
+  function paintSnake(snakeBody) {
+    for (let i = 0; i < snakeBody.length; i++) {
+      let id = snakeBody[i];
+      let squareAtId = document.getElementById(id);
+      squareAtId.style.background = snakeColor;
+    }
+  }
+  function getNewCoord(snakeBody) {
     var vert = snakeBody[0].split(',')[0];
     var horiz = snakeBody[0].split(',')[1];
     if (activeDirection === 'TOP') {
@@ -82,16 +97,22 @@ function game() {
   }
   function deleteLastCoord() {
     let lastCoord = snakeBody[snakeBody.length - 1];
-      let lastSnakeEl = document.getElementById(lastCoord);
-      lastSnakeEl.style.background = gridBg;
-      snakeBody.pop();
+    let lastSnakeEl = document.getElementById(lastCoord);
+    lastSnakeEl.style.background = gridBg;
+    snakeBody.pop();
   }
-  function paintSnake(snakeBody) {
-    for (let i = 0; i < snakeBody.length; i++) {
-      let id = snakeBody[i];
-      let squareAtId = document.getElementById(id);
-      squareAtId.style.background = snakeColor;
-    }
+  function grocer() {
+    let random1 = getRandomIntInclusive(0, game.size);
+    let random2 = getRandomIntInclusive(0, game.size);
+    let id = random1 + ',' + random2;
+    let square = document.getElementById(id);
+    square.className = 'food';
+    square.style.background = 'yellow';
+  }
+  function getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
 game();
