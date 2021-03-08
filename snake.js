@@ -25,7 +25,7 @@ function game() {
   }
   grid(gridBg);
   function run() {
-    snakeMove();
+    snake();
   }
   function gameFrame() {
     setTimeout(function () {
@@ -44,7 +44,6 @@ function game() {
   let snakeColor = 'green';
   var activeDirection = 'TOP';
   document.onkeydown = checkKey;
-
   function checkKey(e) {
     e = e;
     if (e.keyCode == '38') {
@@ -64,22 +63,8 @@ function game() {
     }
     console.log(activeDirection);
   }
-  function snakeMove() {
-    var vert = snakeBody[0].split(',')[0];
-    var horiz = snakeBody[0].split(',')[1];
-    if (activeDirection === 'TOP') {
-      vert--;
-    } else if (activeDirection === 'BOTTOM') {
-      vert++;
-    } else if (activeDirection === 'RIGHT') {
-      horiz++;
-    } else if (activeDirection === 'LEFT') {
-      horiz--;
-    }
-
-    console.log(vert);
-
-    let newCoord = vert + ',' + horiz;
+  function snake() {
+    let newCoord = getNewSnakeCoord(snakeBody);
     snakeBody.unshift(newCoord);
     let newSquare = document.getElementById(newCoord);
 
@@ -94,6 +79,22 @@ function game() {
       let squareAtId = document.getElementById(id);
       squareAtId.style.background = snakeColor;
     }
+  }
+  function getNewSnakeCoord(snakeBody){
+    var vert = snakeBody[0].split(',')[0];
+    var horiz = snakeBody[0].split(',')[1];
+    if (activeDirection === 'TOP') {
+      vert--;
+    } else if (activeDirection === 'BOTTOM') {
+      vert++;
+    } else if (activeDirection === 'RIGHT') {
+      horiz++;
+    } else if (activeDirection === 'LEFT') {
+      horiz--;
+    }
+
+    let newCoord = vert + ',' + horiz;
+    return newCoord;
   }
 }
 game();
