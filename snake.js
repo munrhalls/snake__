@@ -20,27 +20,26 @@
 // Get the random num
 // to variable 
 // transposing it to id format
-  // get to such numbers
-  // concat them with ','
-
+// get to such numbers
+// concat them with ','
 // accessing the square at id
-// styling the square at it with a graphic
-// creating a graphic
-// appending it to that square
+// styling it
+////DONE
+// snake expands length upon entering food square
+// how does snake do that?
+// ways of knowing when the two match? 
+// simplest ways?
+// simplest way?
+// add class "food" to the square
+// in the snake function, locate where square id is accessed
+// there, add condition
+// in it, check if it is NOT FOOD class
+// if it is food class, return before popping tail
+
 // listening for match between food square & snakeBody square
 // launching function upon detecting match
 // extending snake body by +1 on match by adding to the tail (not the first elem)
 // food piece appears randomly every 2 seconds
-
-// what about simplest configurability
-  // what when I want to change the frequency of food appearing?
-    // where 
-  // what when I want to change the amount of food appearing?
-    // into func 
-    // give it argument
-    // recursive until > argument
-    // another func inside
-
 
 
 
@@ -61,9 +60,10 @@ function food(interval) {
       let random2 = getRandomIntInclusive(0, grid.size);
       let id = random1 + ',' + random2;
       let square = document.getElementById(id);
+      square.className = 'food';
       square.style.background = 'yellow';
     }
-    
+
     generateFood();
   }, interval);
 }
@@ -72,6 +72,7 @@ function snake() {
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
   var activeDirection = 'TOP';
+  document.onkeydown = checkKey;
   function checkKey(e) {
     e = e;
     if (e.keyCode == '38') {
@@ -88,7 +89,6 @@ function snake() {
     }
     console.log(activeDirection);
   }
-  document.onkeydown = checkKey;
   setInterval(function () {
     function snakeMove() {
       var vert = snakeBody[0].split(',')[0];
@@ -102,21 +102,26 @@ function snake() {
       } else if (activeDirection === 'LEFT') {
         horiz--;
       }
+
       console.log(vert)
       let newCoord = vert + ',' + horiz;
       snakeBody.unshift(newCoord);
-      let lastCoord = snakeBody[snakeBody.length - 1];
-      let lastSnakeEl = document.getElementById(lastCoord);
-      lastSnakeEl.style.background = gridBg;
-      snakeBody.pop();
+      let newSquare = document.getElementById(newCoord);
+  
+      if (newSquare.className !== 'food') {
+        let lastCoord = snakeBody[snakeBody.length - 1];
+        let lastSnakeEl = document.getElementById(lastCoord);
+        lastSnakeEl.style.background = gridBg;
+        snakeBody.pop();
+      }
+      for (let i = 0; i < snakeBody.length; i++) {
+        let id = snakeBody[i];
+        let squareAtId = document.getElementById(id);
+        squareAtId.style.background = snakeColor;
+      }
     }
     snakeMove();
-    for (let i = 0; i < snakeBody.length; i++) {
-      let id = snakeBody[i];
-      let squareAtId = document.getElementById(id);
-      squareAtId.style.background = snakeColor;
-    }
-  }, 1000);
+  }, 250);
 }
 
 grid(gridBg);
