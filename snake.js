@@ -25,9 +25,12 @@ const gridBg = 'white';
 
 function game() {
   game.size = 40;
-  game.time = 0;
-  game.timePerFrame = 50;
+  game.frames = 0;
+  game.timer = 0;
+  game.timePerFrame = 100;
+  game.framesPerSecond = 1000/game.timePerFrame;
   game.running = true;
+  game.score = 0;
   game.over = function() {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
@@ -47,20 +50,29 @@ function game() {
     gameOverModal.style.opacity = '90%';
     gameOverModal.innerText = 'MODAL';
     
-    let message = createGameOverModalMessage();
-    gameOverModal.appendChild(message);
+    let textOne = 'GAME OVER.';
+    let textTwo = 'Your score: ' + game.score + '.';
+    let textThree = 'Time: ' + game.timer + ' seconds.';
+    let messageOne = createGameOverModalMessage(textOne); 
+    let messageTwo = createGameOverModalMessage(textTwo); 
+    let messageThree = createGameOverModalMessage(textThree); 
+    gameOverModal.appendChild(messageOne);
+    gameOverModal.appendChild(messageTwo);
+    gameOverModal.appendChild(messageThree);
     return gameOverModal;
   } 
-  function createGameOverModalMessage() {
+  function createGameOverModalMessage(text) {
     let message = document.createElement('h1');
-    let text = document.createTextNode('GAME OVER TEXT');
+    let textNode = document.createTextNode(text);
     message.style.color = 'white'
     message.style.textAlign = 'center';
     message.style.padding= '2rem';
     message.style.border = '1rem solid white';
-    
-    message.appendChild(text);
+    message.appendChild(textNode);
     return message; 
+  }
+  function createGameOverModalScoreMessage() {
+
   }
   game.checkOutOfBounds = function(newCoord) {
     //snake goes out of the grid
@@ -82,16 +94,25 @@ function game() {
   }
   function gameFrame() {
     setTimeout(function () {
-      game.time++;
+      game.frames++;
 
       if (game.running) {
         gameFrame();
         run();
       }
     }, game.timePerFrame);
+  }
+  function gameTimer() {
+    setTimeout(function () {
+      game.timer++;
 
+      if (game.running) {
+        gameTimer();
+      }
+    }, 1000);
   }
   gameFrame();
+  gameTimer();
 
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
@@ -127,6 +148,8 @@ function game() {
 
     if (newSquare.className !== 'food') {
       deleteLastCoord();
+    } else {
+      game.score++;
     }
     paintSnake(snakeBody);
   }
