@@ -22,17 +22,19 @@ const gridBg = 'white';
 // 14. test everything on hosted pages
 
 
-// handle it properly
-// understand what a publishing source is
-// 1. host it on github pages
-
 
 function game() {
   game.size = 40;
   game.time = 0;
   game.timePerFrame = 250;
   game.running = true;
-  game.over = false;
+  game.conclude = function() {
+    game.pause();
+    let page = document.getElementsByTagName('body')[0];
+    let concludeModal = document.createElement('div');
+    concludeModal.innerText = 'MODAL'
+    page.appendChild(concludeModal);    
+  }
   game.checkOutOfBounds = function(newCoord) {
     //snake goes out of the grid
     let coords = newCoord.split(',');
@@ -83,14 +85,14 @@ function game() {
       activeDirection = 'RIGHT';
     }
     else if (e.keyCode == '32') {
-      snake.pause();
+      game.pause();
     }
     console.log(activeDirection);
   }
   function snake() {
     let newCoord = getNewCoord(snakeBody);
     if (game.checkOutOfBounds(newCoord)) {
-      game.pause();
+      game.conclude();
       return;
     }
     let newSquare = document.getElementById(newCoord);
