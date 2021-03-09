@@ -1,24 +1,43 @@
 import grid from './grid.js';
 const gridBg = 'white';
 
-// game - just runs/pauses/resumes other functions
-// gameFrame - runs per set timer tick
-// snake
-// getNewCoord
-// deleteLastCoord
-// grocer
-// plants food per set timer ticks amount
-// gameOver
-  // listens for game over conditions 
-    // snake hits itself
-    // snake goes out of the grid
-  // when the game is over, it pauses
+// game - runs game/pauses/stops 
+// displayer - displays snake hitting itself effect;displays pause message; displays end game message; displays score; displays timer; adds effect upon snake meeting food; 
+// snake - runs snake; enlarges snake upon meeting food; 
+// grocer - adds food to the grid periodically
+
+// 1. snake - end game upon snake hitting itself
+// 2. snake - displays snake hitting itself effect;
+// 3. game - pause upon spacebar
+// 4. game - end upon snake hitting itself
+// 5. game - display end game message
+// 6. game - display score 
+// 7. game - display timer 
+// 8. game - add difficulty levels
+// 9. game - add effect upon snake meeting food
+// 10. grocer - make the food look better
+// 11. snake - make the snake look better
+// 12. snake - make the styles customizable
+// 13. host it on github pages
+// 14. test everything on hosted pages
+
+
+// handle it properly
+// understand what a publishing source is
+// 1. host it on github pages
+
 
 function game() {
   game.size = 40;
   game.time = 0;
   game.timePerFrame = 250;
   game.running = true;
+  game.over = false;
+  game.checkOutOfBounds = function(newCoord) {
+    //snake goes out of the grid
+    let coords = newCoord.split(',');
+    return (coords[0] < 0 || coords[1] < 0)
+  }
   game.pause = function () {
     game.running = false;
   }
@@ -70,7 +89,7 @@ function game() {
   }
   function snake() {
     let newCoord = getNewCoord(snakeBody);
-    if (GAMEcheckOutOfBounds(newCoord)) {
+    if (game.checkOutOfBounds(newCoord)) {
       game.pause();
       return;
     }
@@ -111,8 +130,10 @@ function game() {
     snakeBody.pop();
   }
   function grocer() {
-    let random1 = getRandomIntInclusive(0, game.size);
-    let random2 = getRandomIntInclusive(0, game.size);
+    let min = 0 - game.size/2;
+    let max = game.size/2
+    let random1 = getRandomIntInclusive(min, max);
+    let random2 = getRandomIntInclusive(min, max);
     let id = random1 + ',' + random2;
     let square = document.getElementById(id);
     square.className = 'food';
@@ -122,11 +143,6 @@ function game() {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  function GAMEcheckOutOfBounds(newCoord) {
-    //snake goes out of the grid
-    let coords = newCoord.split(',');
-    return (coords[0] < 0 || coords[1] < 0)
   }
 }
 game();
