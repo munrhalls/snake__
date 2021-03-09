@@ -26,14 +26,23 @@ const gridBg = 'white';
 function game() {
   game.size = 40;
   game.time = 0;
-  game.timePerFrame = 250;
+  game.timePerFrame = 50;
   game.running = true;
-  game.conclude = function() {
+  game.over = function() {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
-    let concludeModal = document.createElement('div');
-    concludeModal.innerText = 'MODAL'
-    page.appendChild(concludeModal);    
+    let gameOverEl = document.createElement('div');
+    gameOverEl.style.position = 'absolute';
+    gameOverEl.style.top = '0';
+    gameOverEl.style.left = '0';
+    gameOverEl.style.right = '0';
+    gameOverEl.style.bottom = '0';
+
+    gameOverEl.style.height = '100vh';
+    gameOverEl.style.width = '100vw';
+    gameOverEl.innerText = 'MODAL'
+
+    page.appendChild(gameOverEl);    
   }
   game.checkOutOfBounds = function(newCoord) {
     //snake goes out of the grid
@@ -92,7 +101,7 @@ function game() {
   function snake() {
     let newCoord = getNewCoord(snakeBody);
     if (game.checkOutOfBounds(newCoord)) {
-      game.conclude();
+      game.over();
       return;
     }
     let newSquare = document.getElementById(newCoord);
