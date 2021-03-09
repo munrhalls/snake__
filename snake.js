@@ -1,36 +1,14 @@
 import grid from './grid.js';
 const gridBg = 'white';
 
-// game - runs game/pauses/stops 
-// displayer - displays snake hitting itself effect;displays pause message; displays end game message; displays score; displays timer; adds effect upon snake meeting food; 
-// snake - runs snake; enlarges snake upon meeting food; 
-// grocer - adds food to the grid periodically
-
-// 1. snake - end game upon snake hitting itself
-// 2. snake - displays snake hitting itself effect;
-// 3. game - pause upon spacebar
-// 4. game - end upon snake hitting itself
-// 5. game - display end game message
-// 6. game - display score 
-// 7. game - display timer 
-// 8. game - add difficulty levels
-// 9. game - add effect upon snake meeting food
-// 10. grocer - make the food look better
-// 11. snake - make the snake look better
-// 12. snake - make the styles customizable
-// 13. host it on github pages
-// 14. test everything on hosted pages
-
-
-
 function game() {
   game.size = 40;
   game.frames = 0;
   game.timer = 0;
-  game.timePerFrame = 100;
-  game.framesPerSecond = 1000/game.timePerFrame;
   game.running = true;
   game.score = 0;
+  snake.timePerFrame = 100;
+  snake.framesPerSecond = 1000/game.timePerFrame;
   game.over = function() {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
@@ -88,19 +66,17 @@ function game() {
   grid(gridBg);
   function run() {
     snake();
-    if (game.time % 2 === 0) {
+    if (game.timer % 2 === 0) {
       grocer();
     }
   }
-  function gameFrame() {
+  function snakeFrame() {
     setTimeout(function () {
-      game.frames++;
-
+      snake();
       if (game.running) {
-        gameFrame();
-        run();
+        snakeFrame();
       }
-    }, game.timePerFrame);
+    }, snake.timePerFrame);
   }
   function gameTimer() {
     setTimeout(function () {
@@ -111,7 +87,7 @@ function game() {
       }
     }, 1000);
   }
-  gameFrame();
+  snakeFrame();
   gameTimer();
 
   let snakeBody = ['19,19'];
