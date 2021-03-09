@@ -1,5 +1,5 @@
 function grid(gridBg) {
-  const main = document.getElementsByTagName('main')[0];
+  const main = document.getElementById('gridContainer');
   grid.size = 40;
   let count = 0;
   function loop() {
@@ -12,7 +12,6 @@ function grid(gridBg) {
       square.style.width = '0.75rem';
       square.style.border = '1px solid black';
       square.style.border = '1px solid black';
-      square.style.background = '#000000';
       square.id = count + ',' + i;
       row.appendChild(square);
     }

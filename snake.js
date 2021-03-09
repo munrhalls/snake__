@@ -2,21 +2,41 @@ import grid from './grid.js';
 const gridBg = 'white';
 
 function game() {
+  let snakeBody = ['19,19'];
+  let snakeColor = 'green';
+  var activeDirection = 'TOP';
   game.size = 40;
   game.frames = 0;
   game.timer = 0;
   game.running = true;
   game.score = 0;
   snake.timePerFrame = 100;
-  snake.framesPerSecond = 1000/game.timePerFrame;
-  game.over = function() {
+  snake.framesPerSecond = 1000 / game.timePerFrame;
+  grocer.timePerFrame = 500;
+  game.over = function () {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
     let gameOverModal = createGameOverModal();
-    page.appendChild(gameOverModal);    
+    page.appendChild(gameOverModal);
+  }
+  game.restart = function () {
+    let gridContainer = document.getElementById('gridContainer');
+    while (gridContainer.firstChild) {
+      gridContainer.firstChild.remove()
+    }
+    grid();
+    snakeBody = ['19,19'];
+    activeDirection = 'TOP';
+    game.timer = 0;
+    game.score = 0;
+    game.running = true;
+    snakeFrame();
+    grocerFrame();
+    gameTimer();
   }
   function createGameOverModal() {
     let gameOverModal = document.createElement('div');
+    gameOverModal.id = 'gameOverModal'
     gameOverModal.style.position = 'absolute';
     gameOverModal.style.top = '0';
     gameOverModal.style.left = '0';
@@ -27,35 +47,52 @@ function game() {
     gameOverModal.style.background = '#030303';
     gameOverModal.style.opacity = '90%';
     gameOverModal.innerText = 'MODAL';
-    
+
     let textOne = 'GAME OVER.';
     let textTwo = 'Your score: ' + game.score + '.';
     let textThree = 'Time: ' + game.timer + ' seconds.';
-    let messageOne = createGameOverModalMessage(textOne); 
-    let messageTwo = createGameOverModalMessage(textTwo); 
-    let messageThree = createGameOverModalMessage(textThree); 
+    let messageOne = createGameOverModalMessage(textOne);
+    let messageTwo = createGameOverModalMessage(textTwo);
+    let messageThree = createGameOverModalMessage(textThree);
+    let btnPlayAgain = createPlayAgainButton();
     gameOverModal.appendChild(messageOne);
     gameOverModal.appendChild(messageTwo);
     gameOverModal.appendChild(messageThree);
+    gameOverModal.appendChild(btnPlayAgain);
     return gameOverModal;
-  } 
+  }
   function createGameOverModalMessage(text) {
     let message = document.createElement('h1');
     let textNode = document.createTextNode(text);
     message.style.color = 'white'
     message.style.textAlign = 'center';
-    message.style.padding= '2rem';
+    message.style.padding = '2rem';
     message.style.border = '1rem solid white';
     message.appendChild(textNode);
-    return message; 
+    return message;
   }
-  function createGameOverModalScoreMessage() {
-
+  function createPlayAgainButton() {
+    let btnContainer = document.createElement('div');
+    btnContainer.style.textAlign = 'center';
+    let button = document.createElement('h1');
+    button.innerText = 'PLAY AGAIN';
+    button.style.color = 'white'
+    button.style.textAlign = 'center';
+    button.style.padding = '2rem';
+    button.style.border = '3rem solid white';
+    button.style.cursor = 'pointer';
+    button.onclick = function (e) {
+      let gameOverModal = document.getElementById('gameOverModal');
+      gameOverModal.remove();
+      game.restart();
+    }
+    btnContainer.appendChild(button);
+    return btnContainer;
   }
-  game.checkOutOfBounds = function(newCoord) {
+  game.checkOutOfBounds = function (newCoord) {
     //snake goes out of the grid
     let coords = newCoord.split(',');
-    return (coords[0] < 0 || coords[1] < 0)
+    return (coords[0] < 0 || coords[1] < 0 || coords[0] > 39 || coords[1] > 39);
   }
   game.pause = function () {
     game.running = false;
@@ -63,12 +100,13 @@ function game() {
   game.resume = function () {
     game.running = true;
   }
-  grid(gridBg);
-  function run() {
-    snake();
-    if (game.timer % 2 === 0) {
+  function grocerFrame() {
+    setTimeout(function () {
       grocer();
-    }
+      if (game.running) {
+        grocerFrame();
+      }
+    }, grocer.timePerFrame);
   }
   function snakeFrame() {
     setTimeout(function () {
@@ -87,12 +125,10 @@ function game() {
       }
     }, 1000);
   }
+  grid(gridBg);
   snakeFrame();
+  grocerFrame();
   gameTimer();
-
-  let snakeBody = ['19,19'];
-  let snakeColor = 'green';
-  var activeDirection = 'TOP';
   document.onkeydown = checkKey;
   function checkKey(e) {
     e = e;
@@ -159,7 +195,7 @@ function game() {
   }
   function grocer() {
     let min = 0;
-    let max = game.size/2
+    let max = game.size / 2
     let random1 = getRandomIntInclusive(min, max);
     let random2 = getRandomIntInclusive(min, max);
     let id = random1 + ',' + random2;
