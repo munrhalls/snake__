@@ -31,18 +31,31 @@ function game() {
   game.over = function() {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
-    let gameOverEl = document.createElement('div');
-    gameOverEl.style.position = 'absolute';
-    gameOverEl.style.top = '0';
-    gameOverEl.style.left = '0';
-    gameOverEl.style.right = '0';
-    gameOverEl.style.bottom = '0';
-
-    gameOverEl.style.height = '100vh';
-    gameOverEl.style.width = '100vw';
-    gameOverEl.innerText = 'MODAL'
-
-    page.appendChild(gameOverEl);    
+    debugger;
+    let gameOverModal = createGameOverModal();
+    page.appendChild(gameOverModal);    
+  }
+  function createGameOverModal() {
+    let gameOverModal = document.createElement('div');
+    gameOverModal.style.position = 'absolute';
+    gameOverModal.style.top = '0';
+    gameOverModal.style.left = '0';
+    gameOverModal.style.right = '0';
+    gameOverModal.style.bottom = '0';
+    gameOverModal.style.height = '100vh';
+    gameOverModal.style.width = '100vw';
+    gameOverModal.innerText = 'MODAL';
+    
+    let message = createGameOverModalMessage();
+    gameOverModal.appendChild(message);
+    return gameOverModal;
+  } 
+  function createGameOverModalMessage() {
+    let message = document.createElement('h1');
+    let text = document.createTextNode('GAME OVER TEXT');
+    message.appendChild(text);
+    debugger;
+    return message; 
   }
   game.checkOutOfBounds = function(newCoord) {
     //snake goes out of the grid
