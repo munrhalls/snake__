@@ -12,6 +12,7 @@ function grid(gridBg) {
       square.style.width = '0.75rem';
       square.style.border = '1px solid black';
       square.style.border = '1px solid black';
+      square.style.background = '#000000';
       square.id = count + ',' + i;
       row.appendChild(square);
     }
