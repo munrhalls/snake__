@@ -44,7 +44,7 @@ function game() {
     gameOverModal.style.height = '100vh';
     gameOverModal.style.width = '100vw';
     gameOverModal.style.background = '#030303';
-    gameOverModal.style.opacity = '80%';
+    gameOverModal.style.opacity = '90%';
     gameOverModal.innerText = 'MODAL';
     
     let message = createGameOverModalMessage();
@@ -54,6 +54,11 @@ function game() {
   function createGameOverModalMessage() {
     let message = document.createElement('h1');
     let text = document.createTextNode('GAME OVER TEXT');
+    message.style.color = 'white'
+    message.style.textAlign = 'center';
+    message.style.padding= '2rem';
+    message.style.border = '1rem solid white';
+    
     message.appendChild(text);
     return message; 
   }
