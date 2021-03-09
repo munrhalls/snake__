@@ -31,7 +31,6 @@ function game() {
   game.over = function() {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
-    debugger;
     let gameOverModal = createGameOverModal();
     page.appendChild(gameOverModal);    
   }
@@ -44,6 +43,8 @@ function game() {
     gameOverModal.style.bottom = '0';
     gameOverModal.style.height = '100vh';
     gameOverModal.style.width = '100vw';
+    gameOverModal.style.background = '#030303';
+    gameOverModal.style.opacity = '80%';
     gameOverModal.innerText = 'MODAL';
     
     let message = createGameOverModalMessage();
@@ -54,7 +55,6 @@ function game() {
     let message = document.createElement('h1');
     let text = document.createTextNode('GAME OVER TEXT');
     message.appendChild(text);
-    debugger;
     return message; 
   }
   game.checkOutOfBounds = function(newCoord) {
@@ -154,11 +154,12 @@ function game() {
     snakeBody.pop();
   }
   function grocer() {
-    let min = 0 - game.size/2;
+    let min = 0;
     let max = game.size/2
     let random1 = getRandomIntInclusive(min, max);
     let random2 = getRandomIntInclusive(min, max);
     let id = random1 + ',' + random2;
+    console.log(id);
     let square = document.getElementById(id);
     square.className = 'food';
     square.style.background = 'yellow';
