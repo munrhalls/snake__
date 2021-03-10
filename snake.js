@@ -206,8 +206,17 @@ function game() {
     for (let i = 0; i < snakeBody.length; i++) {
       let id = snakeBody[i];
       let squareAtId = document.getElementById(id);
-      squareAtId.style.background = snakeColor;
+      styleSquareToSnake(squareAtId);
     }
+  }
+  function styleSquareToSnake(square) {
+    square.style.background = snakeColor;
+      square.style.borderRadius = '50%';
+  }
+  function restyleSquareToNormal(coord) {
+    let lastSnakeEl = document.getElementById(coord);
+    lastSnakeEl.style.background = gridBg;
+    lastSnakeEl.style.borderRadius = '';
   }
   function getNewCoord(snakeBody) {
     var vert = snakeBody[0].split(',')[0];
@@ -229,10 +238,6 @@ function game() {
     restyleSquareToNormal(lastCoord);
     snakeBody.pop();
   }
-  function restyleSquareToNormal(coord) {
-    let lastSnakeEl = document.getElementById(coord);
-    lastSnakeEl.style.background = gridBg;
-  }
   function grocer() {
     let min = 0;
     let max = game.size / 2
@@ -243,6 +248,7 @@ function game() {
     let square = document.getElementById(id);
     square.className = 'food';
     square.style.background = 'yellow';
+    square.style.borderRadius = '50%';
   }
   function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
