@@ -86,6 +86,9 @@ function game() {
       gameOverModal.remove();
       game.restart();
     }
+    function createScoreElement() {
+      
+    }
     btnContainer.appendChild(button);
     return btnContainer;
   }
@@ -129,19 +132,33 @@ function game() {
   snakeFrame();
   grocerFrame();
   gameTimer();
-  document.onkeydown = checkKey;
+  document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function() {
+      var context = this, args = arguments;
+      var later = function() {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  };
   function checkKey(e) {
     e = e;
-    if (e.keyCode == '38') {
+    if (e.keyCode == '38' && activeDirection !== 'BOTTOM') {
       activeDirection = 'TOP';
     }
-    else if (e.keyCode == '40') {
+    else if (e.keyCode == '40' && activeDirection !== 'TOP') {
       activeDirection = 'BOTTOM';
     }
-    else if (e.keyCode == '37') {
+    else if (e.keyCode == '37' && activeDirection !== 'RIGHT') {
       activeDirection = 'LEFT';
     }
-    else if (e.keyCode == '39') {
+    else if (e.keyCode == '39' && activeDirection !== 'LEFT') {
       activeDirection = 'RIGHT';
     }
     else if (e.keyCode == '32') {
