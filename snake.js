@@ -54,7 +54,7 @@ function game() {
     gameContainer.appendChild(startBtn);
     startBtn.innerText = 'START';
     startBtn.style.color = 'black';
-    stylePanelBtn(startBtn);
+    panelStyleBtn(startBtn);
     startBtn.onclick = function () {
       game.start();
     }
@@ -237,14 +237,29 @@ function game() {
   function createGridLinesPanel() {
     const gridLinesPanel = document.createElement('div');
     const gridLinesBtn = createGridLinesBtn();
+    const label = document.createElement('span');
+    label.innerText = 'GRIDLINES';
+    panelLabelStyle(label);
+    gridLinesPanel.appendChild(label);
+    panelColumnStyle(gridLinesPanel);
+    panelStyleBtn(gridLinesBtn);
     gridLinesPanel.appendChild(gridLinesBtn)
     gameContainer.appendChild(gridLinesPanel);
+  }
+  function panelLabelStyle(label) {
+    label.style.padding = '0.25rem';
+  }
+  function panelColumnStyle(panelItem) {
+    panelItem.style.display = 'flex';
+    panelItem.style.flexDirection = 'column';
+    panelItem.style.alignItems = 'center';
+    panelItem.style.width = '6.25rem';
+    panelItem.style.padding = '1rem';
   }
   function createGridLinesBtn() {
     const gameContainer = document.getElementById('gameContainer');
     const gridLinesBtn = document.createElement('div');
     const startBtn = document.getElementById('startBtn');
-    gridLinesBtn.innerText = 'GRIDLINES';
     gridLinesBtn.style.background = game.gridlinesColor;
     gridLinesBtn.onclick = function () {
       const gridContainer = document.getElementById('gridContainer');
@@ -254,13 +269,13 @@ function game() {
       const newGrid = grid(gridBg, game.gridlinesColor);
       gameContainer.insertBefore(newGrid, startBtn);
     }
-    stylePanelBtn(gridLinesBtn);
+    panelStyleBtn(gridLinesBtn);
     return gridLinesBtn;
   }
 
-  function stylePanelBtn(btn) {
+  function panelStyleBtn(btn) {
     btn.style.fontWeight = 'bold';
-    btn.style.display = 'inline-block';
+    btn.style.width = '6.25rem';
     btn.style.padding = '1rem';
     btn.style.border = '3px solid black';
   }
