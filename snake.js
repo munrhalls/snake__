@@ -8,22 +8,21 @@ function game() {
   game.size = 40;
   game.frames = 0;
   game.timer = 0;
-  game.running = true;
+  game.running = false;
   game.score = 0;
-  game.gridlines = 'green';
+  game.gridlinesColor = 'green';
   snake.timePerFrame = 100;
   snake.framesPerSecond = 1000 / game.timePerFrame;
   grocer.timePerFrame = 500;
+  grid(gridBg, game.gridlinesColor);
+  createPanelBtns();
   game.start = function() {
-    grid(gridBg, game.gridlines);
+    game.running = true;
     snakeFrame();
     grocerFrame();
     gameTimer();
     document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
-    createScoreDisplay();
-    gridLinesBtn();
   }
-  game.start();
   game.over = function () {
     game.pause();
     let page = document.getElementById('gameContainer');
@@ -40,7 +39,24 @@ function game() {
     game.timer = 0;
     game.score = 0;
     game.running = true;
+    grid(gridBg, game.gridlinesColor);
     game.start();
+  }
+  function createPanelBtns() {
+    createStartGameBtn();
+    createScoreDisplay();
+    createGridLinesBtn();
+  }
+  function createStartGameBtn() {
+    let startGameBtn = document.createElement('h1');
+    let gameContainer = document.getElementById('gameContainer');
+    gameContainer.appendChild(startGameBtn);
+    startGameBtn.innerText = 'START';
+    startGameBtn.style.color = 'black';
+    stylePanelBtn(startGameBtn);
+    startGameBtn.onclick = function() {
+      game.start();
+    }
   }
   function createGameOverModal() {
     let gameOverModal = document.createElement('div');
@@ -217,17 +233,22 @@ function game() {
     lastSnakeEl.style.background = gridBg;
     lastSnakeEl.style.borderRadius = '';
   }
-  function gridLinesBtn() {
+  function createGridLinesBtn() {
     let gameContainer = document.getElementById('gameContainer');
     let gridLinesBtn = document.createElement('div');
-    gridLinesBtn.innerText = 'GRIDLINES';
+    createGridLinesBtn.innerText = 'GRIDLINES';
+    createGridLinesBtn.onclick = function() {
+      game.gridlinesColor = 'blue'
+      console.log('blue')
+    }
     stylePanelBtn(gridLinesBtn);
     gameContainer.appendChild(gridLinesBtn)
   } 
+
   function stylePanelBtn(btn) {
     btn.style.fontWeight = 'bold';
     btn.style.display = 'inline-block';
-    btn.style.padding = '1.5rem';
+    btn.style.padding = '1rem';
     btn.style.border = '3px solid black';
   }
   function getNewCoord(snakeBody) {
