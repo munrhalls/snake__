@@ -13,6 +13,14 @@ function game() {
   snake.timePerFrame = 100;
   snake.framesPerSecond = 1000 / game.timePerFrame;
   grocer.timePerFrame = 500;
+  game.start = function() {
+    grid(gridBg);
+    snakeFrame();
+    grocerFrame();
+    gameTimer();
+    document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
+  }
+  game.start();
   game.over = function () {
     game.pause();
     let page = document.getElementsByTagName('body')[0];
@@ -60,6 +68,18 @@ function game() {
     gameOverModal.appendChild(messageThree);
     gameOverModal.appendChild(btnPlayAgain);
     return gameOverModal;
+  }
+  function createScoreDisplay() {
+    let gameContainer = document.getElementById('gameContainer');
+    let score = document.createElement('h1');
+    let text = game.score;
+    let textNode = document.createTextNode(text);
+    score.style.color = 'white'
+    score.style.textAlign = 'center';
+    score.style.padding = '2rem';
+    score.style.border = '1rem solid white';
+    score.appendChild(textNode);
+    gameContainer.appendChild(score);
   }
   function createGameOverModalMessage(text) {
     let message = document.createElement('h1');
@@ -128,11 +148,6 @@ function game() {
       }
     }, 1000);
   }
-  grid(gridBg);
-  snakeFrame();
-  grocerFrame();
-  gameTimer();
-  document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
   function debounce(func, wait, immediate) {
     var timeout;
     return function() {
