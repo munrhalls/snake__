@@ -10,6 +10,7 @@ function game() {
   snake.timePerFrame = 100;
   snake.framesPerSecond = 1000 / game.timePerFrame;
   grocer.timePerFrame = 500;
+  grocer.foodSquareIds = [];
   let gameContainer = document.getElementById('gameContainer');
   const gridBg = 'white';
   let snakeBody = ['19,19'];
@@ -38,6 +39,7 @@ function game() {
     activeDirection = 'TOP';
     game.timer = 0;
     game.score = 0;
+    grocer.foodSquareIds = [];
     appendGrid();
     createPanelBtns();
   }
@@ -314,6 +316,7 @@ function game() {
     square.className = 'food';
     square.style.background = 'yellow';
     square.style.borderRadius = '50%';
+    grocer.foodSquareIds.push(id);
   }
   function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
