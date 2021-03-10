@@ -1,7 +1,6 @@
 function grid(gridBg, gameGridlines) {
-  const gameContainer = document.getElementById('gameContainer');
   const gridContainer = document.createElement('main');
-  gameContainer.appendChild(gridContainer);
+  gridContainer.id = 'gridContainer';
   grid.size = 40;
   let count = 0;
   function loop() {
@@ -24,5 +23,6 @@ function grid(gridBg, gameGridlines) {
     }
   }
   loop();
+  return gridContainer;
   }
   export default grid;
