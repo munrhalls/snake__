@@ -19,6 +19,7 @@ function game() {
     grocerFrame();
     gameTimer();
     document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
+    createScoreDisplay();
   }
   game.start();
   game.over = function () {
@@ -71,15 +72,21 @@ function game() {
   }
   function createScoreDisplay() {
     let gameContainer = document.getElementById('gameContainer');
-    let score = document.createElement('h1');
-    let text = game.score;
+    let score = document.createElement('h3');
+    score.id = 'score';
+    let text = 'SCORE: ' + game.score;
     let textNode = document.createTextNode(text);
-    score.style.color = 'white'
-    score.style.textAlign = 'center';
-    score.style.padding = '2rem';
-    score.style.border = '1rem solid white';
+    score.style.color = 'black'
+    score.style.textAlign = 'left';
     score.appendChild(textNode);
     gameContainer.appendChild(score);
+  }
+  function updateScoreDisplay() {
+    let score = document.getElementById('score');
+    let text = 'SCORE: ' + game.score;
+    let textNode = document.createTextNode(text);
+    score.removeChild(score.firstChild);
+    score.appendChild(textNode);
   }
   function createGameOverModalMessage(text) {
     let message = document.createElement('h1');
@@ -105,9 +112,6 @@ function game() {
       let gameOverModal = document.getElementById('gameOverModal');
       gameOverModal.remove();
       game.restart();
-    }
-    function createScoreElement() {
-      
     }
     btnContainer.appendChild(button);
     return btnContainer;
@@ -194,6 +198,7 @@ function game() {
       deleteLastCoord();
     } else {
       game.score++;
+      updateScoreDisplay();
     }
     paintSnake(snakeBody);
   }
