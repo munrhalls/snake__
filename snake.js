@@ -226,9 +226,12 @@ function game() {
   }
   function deleteLastCoord() {
     let lastCoord = snakeBody[snakeBody.length - 1];
-    let lastSnakeEl = document.getElementById(lastCoord);
-    lastSnakeEl.style.background = gridBg;
+    restyleSquareToNormal(lastCoord);
     snakeBody.pop();
+  }
+  function restyleSquareToNormal(coord) {
+    let lastSnakeEl = document.getElementById(coord);
+    lastSnakeEl.style.background = gridBg;
   }
   function grocer() {
     let min = 0;
