@@ -12,13 +12,13 @@ function game() {
   grocer.timePerFrame = 500;
   let gameContainer = document.getElementById('gameContainer');
   const gridBg = 'white';
-  const gridContainer = grid(gridBg, game.gridlinesColor);
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
   var activeDirection = 'TOP';
+  const gridContainer = grid(gridBg, game.gridlinesColor);
   gameContainer.appendChild(gridContainer);
   createPanelBtns();
-  game.start = function() {
+  game.start = function () {
     game.running = true;
     snakeFrame();
     grocerFrame();
@@ -45,7 +45,7 @@ function game() {
   function createPanelBtns() {
     createStartBtn();
     createScoreDisplay();
-    createGridLinesBtn();
+    createGridLinesPanel();
   }
   function createStartBtn() {
     let startBtn = document.createElement('h1');
@@ -55,7 +55,7 @@ function game() {
     startBtn.innerText = 'START';
     startBtn.style.color = 'black';
     stylePanelBtn(startBtn);
-    startBtn.onclick = function() {
+    startBtn.onclick = function () {
       game.start();
     }
   }
@@ -170,9 +170,9 @@ function game() {
   }
   function debounce(func, wait, immediate) {
     var timeout;
-    return function() {
+    return function () {
       var context = this, args = arguments;
-      var later = function() {
+      var later = function () {
         timeout = null;
         if (!immediate) func.apply(context, args);
       };
@@ -227,33 +227,36 @@ function game() {
   }
   function styleSquareToSnake(square) {
     square.style.background = snakeColor;
-      square.style.borderRadius = '50%';
+    square.style.borderRadius = '50%';
   }
   function restyleSquareToNormal(coord) {
     let lastSnakeEl = document.getElementById(coord);
     lastSnakeEl.style.background = gridBg;
     lastSnakeEl.style.borderRadius = '';
   }
+  function createGridLinesPanel() {
+    const gridLinesPanel = document.createElement('div');
+    const gridLinesBtn = createGridLinesBtn();
+    gridLinesPanel.appendChild(gridLinesBtn)
+    gameContainer.appendChild(gridLinesPanel);
+  }
   function createGridLinesBtn() {
-    let gameContainer = document.getElementById('gameContainer');
-    let gridLinesBtn = document.createElement('div');
-    let startBtn = document.getElementById('startBtn');
+    const gameContainer = document.getElementById('gameContainer');
+    const gridLinesBtn = document.createElement('div');
+    const startBtn = document.getElementById('startBtn');
     gridLinesBtn.innerText = 'GRIDLINES';
-    gridLinesBtn.onclick = function() {
-      game.gridlinesColor = 'blue'
-      console.log(gameContainer.childNodes)
-    
+    gridLinesBtn.style.background = game.gridlinesColor;
+    gridLinesBtn.onclick = function () {
+      const gridContainer = document.getElementById('gridContainer');
       gameContainer.removeChild(gridContainer);
-      grid(gridBg, game.gridlinesColor);
-      setTimeout(function() {
-        gameContainer.insertBefore(newGrid, startBtn);
-
-      }, 1000)
-      console.log(gameContainer.childNodes)
+      game.gridlinesColor = 'black';
+      gridLinesBtn.style.background = game.gridlinesColor;
+      const newGrid = grid(gridBg, game.gridlinesColor);
+      gameContainer.insertBefore(newGrid, startBtn);
     }
     stylePanelBtn(gridLinesBtn);
-    gameContainer.appendChild(gridLinesBtn)
-  } 
+    return gridLinesBtn;
+  }
 
   function stylePanelBtn(btn) {
     btn.style.fontWeight = 'bold';
