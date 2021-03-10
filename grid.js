@@ -1,5 +1,7 @@
-function grid(gridBg) {
-  const main = document.getElementById('gridContainer');
+function grid(gridBg, gameGridlines) {
+  const gameContainer = document.getElementById('gameContainer');
+  const gridContainer = document.createElement('main');
+  gameContainer.appendChild(gridContainer);
   grid.size = 40;
   let count = 0;
   function loop() {
@@ -7,15 +9,15 @@ function grid(gridBg) {
     row.style.display = 'flex';
     for (let i = 0; i < grid.size; i++) {
       let square = document.createElement('div');
+      let borderStyle = '1px solid ' + gameGridlines;
       square.style.background = gridBg;
       square.style.height = '0.75rem';
       square.style.width = '0.75rem';
-      square.style.border = '1px solid black';
-      square.style.border = '1px solid black';
+      square.style.border = borderStyle;
       square.id = count + ',' + i;
       row.appendChild(square);
     }
-    main.appendChild(row);
+    gridContainer.appendChild(row);
     if (count < grid.size) {
       count++;
       loop();

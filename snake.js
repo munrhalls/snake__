@@ -1,7 +1,7 @@
 import grid from './grid.js';
-const gridBg = 'white';
 
 function game() {
+  const gridBg = 'white';
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
   var activeDirection = 'TOP';
@@ -10,38 +10,37 @@ function game() {
   game.timer = 0;
   game.running = true;
   game.score = 0;
+  game.gridlines = 'green';
   snake.timePerFrame = 100;
   snake.framesPerSecond = 1000 / game.timePerFrame;
   grocer.timePerFrame = 500;
   game.start = function() {
-    grid(gridBg);
+    grid(gridBg, game.gridlines);
     snakeFrame();
     grocerFrame();
     gameTimer();
     document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
     createScoreDisplay();
+    gridLinesColorBtn();
   }
   game.start();
   game.over = function () {
     game.pause();
-    let page = document.getElementsByTagName('body')[0];
+    let page = document.getElementById('gameContainer');
     let gameOverModal = createGameOverModal();
     page.appendChild(gameOverModal);
   }
   game.restart = function () {
-    let gridContainer = document.getElementById('gridContainer');
-    while (gridContainer.firstChild) {
-      gridContainer.firstChild.remove()
+    let gameContainer = document.getElementById('gameContainer');
+    while (gameContainer.firstChild) {
+      gameContainer.firstChild.remove();
     }
-    grid();
     snakeBody = ['19,19'];
     activeDirection = 'TOP';
     game.timer = 0;
     game.score = 0;
     game.running = true;
-    snakeFrame();
-    grocerFrame();
-    gameTimer();
+    game.start();
   }
   function createGameOverModal() {
     let gameOverModal = document.createElement('div');
@@ -218,6 +217,12 @@ function game() {
     lastSnakeEl.style.background = gridBg;
     lastSnakeEl.style.borderRadius = '';
   }
+  function gridLinesColorBtn() {
+    let gameContainer = document.getElementById('gameContainer');
+    let gridLinesBtn = document.createElement('div');
+    gridLinesBtn.innerText = 'GRIDLINES';
+    gameContainer.appendChild(gridLinesBtn)
+  } 
   function getNewCoord(snakeBody) {
     var vert = snakeBody[0].split(',')[0];
     var horiz = snakeBody[0].split(',')[1];
