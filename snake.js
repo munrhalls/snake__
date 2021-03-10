@@ -15,8 +15,7 @@ function game() {
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
   var activeDirection = 'TOP';
-  const gridContainer = grid(gridBg, game.gridlinesColor);
-  gameContainer.appendChild(gridContainer);
+  appendGrid();
   createPanelBtns();
   game.start = function () {
     game.running = true;
@@ -39,8 +38,12 @@ function game() {
     activeDirection = 'TOP';
     game.timer = 0;
     game.score = 0;
-    grid(gridBg, game.gridlinesColor);
+    appendGrid();
     createPanelBtns();
+  }
+  function appendGrid() {
+    const gridContainer = grid(gridBg, game.gridlinesColor);
+    gameContainer.appendChild(gridContainer);
   }
   function createPanelBtns() {
     createStartBtn();
@@ -248,6 +251,7 @@ function game() {
   }
   function panelLabelStyle(label) {
     label.style.padding = '0.25rem';
+    label.style.fontWeight = 'bold';
   }
   function panelColumnStyle(panelItem) {
     panelItem.style.display = 'flex';
