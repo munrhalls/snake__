@@ -38,9 +38,8 @@ function game() {
     activeDirection = 'TOP';
     game.timer = 0;
     game.score = 0;
-    game.running = true;
     grid(gridBg, game.gridlinesColor);
-    game.start();
+    createPanelBtns();
   }
   function createPanelBtns() {
     createStartGameBtn();
