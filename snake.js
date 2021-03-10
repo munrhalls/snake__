@@ -21,7 +21,7 @@ function game() {
     gameTimer();
     document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
     createScoreDisplay();
-    gridLinesColorBtn();
+    gridLinesBtn();
   }
   game.start();
   game.over = function () {
@@ -217,12 +217,19 @@ function game() {
     lastSnakeEl.style.background = gridBg;
     lastSnakeEl.style.borderRadius = '';
   }
-  function gridLinesColorBtn() {
+  function gridLinesBtn() {
     let gameContainer = document.getElementById('gameContainer');
     let gridLinesBtn = document.createElement('div');
     gridLinesBtn.innerText = 'GRIDLINES';
+    stylePanelBtn(gridLinesBtn);
     gameContainer.appendChild(gridLinesBtn)
   } 
+  function stylePanelBtn(btn) {
+    btn.style.fontWeight = 'bold';
+    btn.style.display = 'inline-block';
+    btn.style.padding = '1.5rem';
+    btn.style.border = '3px solid black';
+  }
   function getNewCoord(snakeBody) {
     var vert = snakeBody[0].split(',')[0];
     var horiz = snakeBody[0].split(',')[1];
