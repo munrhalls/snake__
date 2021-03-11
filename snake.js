@@ -20,14 +20,17 @@ function game() {
   appendGrid();
   createPanelBtns();
   game.start = function () {
-    game.running = true;
-    snakeFrame();
-    grocerFrame();
-    gameTimer();
-    document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
+    if (!game.running) {
+      game.running = true;
+      snakeFrame();
+      grocerFrame();
+      gameTimer();
+      document.onkeydown = debounce(checkKey, snake.timePerFrame, false);
+    }
   }
   game.over = function () {
     game.pause();
+    game.running = false;
     let gameOverModal = createGameOverModal();
     gameContainer.appendChild(gameOverModal);
   }
@@ -60,6 +63,7 @@ function game() {
     gameContainer.appendChild(startBtn);
     startBtn.innerText = 'START';
     startBtn.style.color = 'black';
+    startBtn.style.cursor = 'pointer';
     panelStyleBtn(startBtn);
     startBtn.onclick = function () {
       game.start();
@@ -160,7 +164,7 @@ function game() {
   game.checkSnakeHitsItself = function (newCoord, snakeBody) {
     //snake goes out of the grid
     let condition = false;
-    snakeBody.forEach(function(snakeCoord) {
+    snakeBody.forEach(function (snakeCoord) {
       if (snakeCoord === newCoord) {
         condition = true;
         game.overMessage = 'the snake tried to eat itself!';
@@ -311,6 +315,4 @@ function game() {
   }
 }
 game();
-game.pause();
-game.resume();
 
