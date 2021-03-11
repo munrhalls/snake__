@@ -5,6 +5,7 @@ function game() {
   game.frames = 0;
   game.timer = 0;
   game.running = false;
+  game.overMessage = '';
   game.score = 0;
   game.gridBg = 'black';
   game.gridlinesColor = 'white';
@@ -87,11 +88,14 @@ function game() {
     let textOne = 'GAME OVER.';
     let textTwo = 'Your score: ' + game.score + '.';
     let textThree = 'Time: ' + game.timer + ' seconds.';
+    let textFour = 'Reason: ' + game.overMessage;
     let messageOne = createGameOverModalMessage(textOne);
     let messageTwo = createGameOverModalMessage(textTwo);
     let messageThree = createGameOverModalMessage(textThree);
+    let messageFour = createGameOverModalMessage(textFour);
     let btnPlayAgain = createPlayAgainButton();
     gameOverModal.appendChild(messageOne);
+    gameOverModal.appendChild(messageFour);
     gameOverModal.appendChild(messageTwo);
     gameOverModal.appendChild(messageThree);
     gameOverModal.appendChild(btnPlayAgain);
@@ -146,18 +150,23 @@ function game() {
   game.checkOutOfBounds = function (newCoord) {
     //snake goes out of the grid
     let coords = newCoord.split(',');
-    return (coords[0] < 0 || coords[1] < 0 || coords[0] > 39 || coords[1] > 39);
+    if (coords[0] < 0 || coords[1] < 0 || coords[0] > 39 || coords[1] > 39) {
+      game.overMessage = 'the snake has run out of the grid.';
+      return true;
+    } else {
+      return false;
+    }
   }
   game.checkSnakeHitsItself = function (newCoord, snakeBody) {
     //snake goes out of the grid
-    snakeBody.forEach(function(el) {
-      if (el === newCoord) {
-        console.log(el)
-        console.log(newCoord)
-        console.log('SAME')
-        return true;
+    let condition = false;
+    snakeBody.forEach(function(snakeCoord) {
+      if (snakeCoord === newCoord) {
+        condition = true;
+        game.overMessage = 'the snake tried to eat itself!';
       }
     });
+    return condition;
   }
   game.pause = function () {
     game.running = false;
