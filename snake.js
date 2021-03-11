@@ -6,13 +6,13 @@ function game() {
   game.timer = 0;
   game.running = false;
   game.score = 0;
-  game.gridlinesColor = 'green';
+  game.gridBg = 'black';
+  game.gridlinesColor = 'white';
   snake.timePerFrame = 100;
   snake.framesPerSecond = 1000 / game.timePerFrame;
   grocer.timePerFrame = 500;
   grocer.foodSquareIds = [];
   let gameContainer = document.getElementById('gameContainer');
-  const gridBg = 'white';
   let snakeBody = ['19,19'];
   let snakeColor = 'green';
   var activeDirection = 'TOP';
@@ -44,13 +44,13 @@ function game() {
     createPanelBtns();
   }
   function appendGrid() {
-    const gridContainer = grid(gridBg, game.gridlinesColor);
+    const gridContainer = grid(game.gridBg, game.gridlinesColor);
     gameContainer.appendChild(gridContainer);
   }
   function createPanelBtns() {
     createStartBtn();
     createScoreDisplay();
-    createGridLinesPanel();
+    // createGridLinesPanel();
   }
   function createStartBtn() {
     let startBtn = document.createElement('h1');
@@ -63,6 +63,12 @@ function game() {
     startBtn.onclick = function () {
       game.start();
     }
+  }
+  function panelStyleBtn(btn) {
+    btn.style.fontWeight = 'bold';
+    btn.style.width = '6.25rem';
+    btn.style.padding = '1rem';
+    btn.style.border = '3px solid black';
   }
   function createGameOverModal() {
     let gameOverModal = document.createElement('div');
@@ -93,7 +99,7 @@ function game() {
   }
   function createScoreDisplay() {
     let gameContainer = document.getElementById('gameContainer');
-    let score = document.createElement('h3');
+    let score = document.createElement('h1');
     score.id = 'score';
     let text = 'SCORE: ' + game.score;
     let textNode = document.createTextNode(text);
@@ -141,6 +147,17 @@ function game() {
     //snake goes out of the grid
     let coords = newCoord.split(',');
     return (coords[0] < 0 || coords[1] < 0 || coords[0] > 39 || coords[1] > 39);
+  }
+  game.checkSnakeHitsItself = function (newCoord, snakeBody) {
+    //snake goes out of the grid
+    snakeBody.forEach(function(el) {
+      if (el === newCoord) {
+        console.log(el)
+        console.log(newCoord)
+        console.log('SAME')
+        return true;
+      }
+    });
   }
   game.pause = function () {
     game.running = false;
@@ -204,11 +221,14 @@ function game() {
     else if (e.keyCode == '32') {
       game.pause();
     }
-    console.log(activeDirection);
   }
   function snake() {
     let newCoord = getNewCoord(snakeBody);
     if (game.checkOutOfBounds(newCoord)) {
+      game.over();
+      return;
+    }
+    if (game.checkSnakeHitsItself(newCoord, snakeBody)) {
       game.over();
       return;
     }
@@ -236,55 +256,10 @@ function game() {
   }
   function restyleSquareToNormal(coord) {
     let lastSnakeEl = document.getElementById(coord);
-    lastSnakeEl.style.background = gridBg;
+    lastSnakeEl.style.background = game.gridBg;
     lastSnakeEl.style.borderRadius = '';
   }
-  function createGridLinesPanel() {
-    const gridLinesPanel = document.createElement('div');
-    const gridLinesBtn = createGridLinesBtn();
-    const label = document.createElement('span');
-    label.innerText = 'GRIDLINES';
-    panelLabelStyle(label);
-    gridLinesPanel.appendChild(label);
-    panelColumnStyle(gridLinesPanel);
-    panelStyleBtn(gridLinesBtn);
-    gridLinesPanel.appendChild(gridLinesBtn)
-    gameContainer.appendChild(gridLinesPanel);
-  }
-  function panelLabelStyle(label) {
-    label.style.padding = '0.25rem';
-    label.style.fontWeight = 'bold';
-  }
-  function panelColumnStyle(panelItem) {
-    panelItem.style.display = 'flex';
-    panelItem.style.flexDirection = 'column';
-    panelItem.style.alignItems = 'center';
-    panelItem.style.width = '6.25rem';
-    panelItem.style.padding = '1rem';
-  }
-  function createGridLinesBtn() {
-    const gameContainer = document.getElementById('gameContainer');
-    const gridLinesBtn = document.createElement('div');
-    const startBtn = document.getElementById('startBtn');
-    gridLinesBtn.style.background = game.gridlinesColor;
-    gridLinesBtn.onclick = function () {
-      const gridContainer = document.getElementById('gridContainer');
-      gameContainer.removeChild(gridContainer);
-      game.gridlinesColor = 'black';
-      gridLinesBtn.style.background = game.gridlinesColor;
-      const newGrid = grid(gridBg, game.gridlinesColor);
-      gameContainer.insertBefore(newGrid, startBtn);
-    }
-    panelStyleBtn(gridLinesBtn);
-    return gridLinesBtn;
-  }
 
-  function panelStyleBtn(btn) {
-    btn.style.fontWeight = 'bold';
-    btn.style.width = '6.25rem';
-    btn.style.padding = '1rem';
-    btn.style.border = '3px solid black';
-  }
   function getNewCoord(snakeBody) {
     var vert = snakeBody[0].split(',')[0];
     var horiz = snakeBody[0].split(',')[1];
@@ -311,12 +286,14 @@ function game() {
     let random1 = getRandomIntInclusive(min, max);
     let random2 = getRandomIntInclusive(min, max);
     let id = random1 + ',' + random2;
-    console.log(id);
+    fillSquareWithFood(id);
+    grocer.foodSquareIds.push(id);
+  }
+  function fillSquareWithFood(id) {
     let square = document.getElementById(id);
     square.className = 'food';
     square.style.background = 'yellow';
     square.style.borderRadius = '50%';
-    grocer.foodSquareIds.push(id);
   }
   function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
